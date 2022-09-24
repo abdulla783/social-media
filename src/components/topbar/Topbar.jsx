@@ -1,11 +1,21 @@
 import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
+import {Link} from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Topbar() {
+  const {user} = useContext(AuthContext)
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+  console.log(user,'====')
+
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <span className="logo">Lamasocial</span>
+        <Link to="/" style={{textDecoration: "none"}}>
+          <span className="logo">Saimsocial</span>
+        </Link>
       </div>
       <div className="topbarCenter">
         <div className="searchbar">
@@ -26,16 +36,20 @@ export default function Topbar() {
             <Person />
             <span className="topbarIconBadge">1</span>
           </div>
-          <div className="topbarIconItem">
-            <Chat />
-            <span className="topbarIconBadge">2</span>
-          </div>
+          <Link style={{textDecoration: "none", color: "white"}} to={'/messanger'}>
+            <div className="topbarIconItem">
+              <Chat />
+              <span className="topbarIconBadge">2</span>
+            </div>
+          </Link>
           <div className="topbarIconItem">
             <Notifications />
             <span className="topbarIconBadge">1</span>
           </div>
         </div>
-        <img src="/assets/person/1.jpeg" alt="" className="topbarImg"/>
+        <Link to={`/profile/${user?.id}`}>
+          <img src={user?.profile_image ? user.profile_image : PF + "Blank-Avatar.png"} alt="" className="topbarImg"/>
+        </Link>
       </div>
     </div>
   );
